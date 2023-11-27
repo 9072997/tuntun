@@ -188,7 +188,7 @@ var sampleConfig = []Connection{
 					Address: "0.0.0.0:515",
 				},
 				To: Endpoint{
-					Side:    "Local",
+					Side:    "Remote",
 					Address: "printer.example.com:515",
 				},
 			},

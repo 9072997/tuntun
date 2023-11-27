@@ -63,7 +63,7 @@ Here is a sample config:
 					"Address": "0.0.0.0:515"
 				},
 				"To": {
-					"Side": "Local",
+					"Side": "Remote",
 					"Address": "printer.example.com:515"
 				}
 			}
