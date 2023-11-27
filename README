@@ -1,0 +1,72 @@
+Basic ssh tunnel minder that works as a Windows service and has no external
+dependencies. It supports tunnels in both directions, password or key-file
+authentication, SSH keepalives, and exponential backoff.
+
+To install as a windows service, first move the EXE to a permanent location
+(like in C:\Program Files\TunTun\) then run "tuntun.exe install"
+
+It will look for a config file in C:\ProgramData\TunTun\config.json
+Here is a sample config:
+
+[
+	{
+		"Name": "My Database Server",
+		"Host": "db.example.com",
+		"Username": "root",
+		"Password": "P@ssw0rd",
+		"Fingerprint": "SHA256:nThbg6kXUpJWGl7E1IGOCspRomTxdCARLviKw6E5SY8",
+		"KeepAliveInterval": "30s",
+		"MaxReconnectDelay": "5m0s",
+		"Tunnels": [
+			{
+				"From": {
+					"Side": "Local",
+					"Address": "127.0.0.1:30000"
+				},
+				"To": {
+					"Side": "Remote",
+					"Address": "127.0.0.1.3306"
+				}
+			}
+		]
+	},
+	{
+		"Name": "A Server With A Public IP",
+		"Host": "example.com:22",
+		"Username": "root",
+		"KeyFile": "/path/to/key.pem",
+		"Password": "MyKeyFilePassword",
+		"Fingerprint": "MD5:16:27:ac:a5:76:28:2d:36:63:1b:56:4d:eb:df:a6:48",
+		"Tunnels": [
+			{
+				"From": {
+					"Side": "Remote",
+					"Address": "0.0.0.0:80"
+				},
+				"To": {
+					"Side": "Local",
+					"Address": "127.0.0.1:80"
+				}
+			}
+		]
+	},
+	{
+		"Name": "Something I Want To Expose To My LOCAL Network",
+		"Host": "gateway-server.example.com:22",
+		"Username": "root",
+		"KeyFile": "",
+		"Key": "-----BEGIN OPENSSH PRIVATE KEY-----\nblahblahblah\n-----END OPENSSH PRIVATE KEY-----",
+		"Tunnels": [
+			{
+				"From": {
+					"Side": "Local",
+					"Address": "0.0.0.0:515"
+				},
+				"To": {
+					"Side": "Local",
+					"Address": "printer.example.com:515"
+				}
+			}
+		]
+	}
+]
